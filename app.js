@@ -11,7 +11,7 @@ const VIDEOS = [
   { n: 4, g: "124,58,237", src: "./video4.mp4" },
 ];
 
-const FERRAMENTAS = ["DaVinci Resolve", "CapCut", "Photoshop", "Sound Design", "Premiere Pro", "After Effects"];
+const FERRAMENTAS = ["alight motion pro", "CapCut", "Photoshop", "Sound Design", "Premiere Pro", "After Effects"];
 
 const SERVICOS = [
   { n: "01", titulo: "Vídeos curtos", texto: "Edição de Reels, TikTok, YouTube Shorts e legendas para prender a atenção." },
