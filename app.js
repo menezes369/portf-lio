@@ -3,12 +3,12 @@ const { useState, useEffect, useRef } = React;
 /* ============ CONFIGURAÇÃO ============ */
 const WHATSAPP_URL = "https://wa.me/5518996241216";
 const INSTAGRAM_URL = "https://www.instagram.com/";
-// Vídeos: coloque video1.mp4, video2.mp4, video3.mp4 e video4.mp4 na mesma pasta do index.html
+
 const VIDEOS = [
-  { n: 1, g: "166,60,240" },
-  { n: 2, g: "255,46,133" },
-  { n: 3, g: "209,43,214" },
-  { n: 4, g: "124,58,237" },
+  { n: 1, g: "166,60,240", src: "./video1.mp4" },
+  { n: 2, g: "255,46,133", src: "./video2.mp4" },
+  { n: 3, g: "209,43,214", src: "./video3.mp4" },
+  { n: 4, g: "124,58,237", src: "./video4.mp4" },
 ];
 
 const FERRAMENTAS = ["DaVinci Resolve", "CapCut", "Photoshop", "Sound Design", "Premiere Pro", "After Effects"];
@@ -19,7 +19,7 @@ const SERVICOS = [
   { n: "03", titulo: "Anúncios e criativos", texto: "Edição de vídeos e criativos pensados para anúncios e campanhas." },
 ];
 
-/* ============ ESTILO (glass escuro · roxo + rosa) ============ */
+/* ============ ESTILO ============ */
 const css = `
 html, body, #root { margin: 0 !important; padding: 0 !important; width: 100%; min-height: 100%; background: #050506 !important; }
 body { overflow-x: hidden; }
@@ -50,11 +50,9 @@ body { overflow-x: hidden; }
 .mz .grad { background: linear-gradient(90deg,#b57bff 0%,#a63cf0 28%,#e04fd0 55%,#ff4fa3 80%,#ff8fb8 100%); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
 .mz .grad-short { background: linear-gradient(90deg,#b57bff,#e04fd0 55%,#ff4fa3); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
 
-/* barra de progresso */
 .mz-progress { position: fixed; inset: 0 0 auto 0; height: 5px; z-index: 60; transform-origin: 0 50%; transform: scaleX(0); will-change: transform;
   background: linear-gradient(90deg,#a63cf0,#d12bd6,#ff2e85); }
 
-/* barra flutuante + botão WhatsApp */
 .mz-top { position: fixed; z-index: 50; top: calc(14px + env(safe-area-inset-top,0px)); left: 14px; right: 14px; max-width: 1100px; margin: 0 auto;
   display: flex; align-items: center; justify-content: flex-end; gap: 18px; padding: 8px 8px 8px 24px; border-radius: 999px;
   background: var(--glass); backdrop-filter: blur(16px) saturate(1.4); -webkit-backdrop-filter: blur(16px) saturate(1.4);
@@ -71,7 +69,6 @@ body { overflow-x: hidden; }
 .mz .mz-fab.on { transform: none; }
 .mz .mz-fab:hover { box-shadow: 0 0 44px rgba(255,46,133,.55), inset 0 1px 0 rgba(255,255,255,.25); }
 
-/* ---------- HERO ---------- */
 .mz-hero { position: relative; overflow: hidden; isolation: isolate; padding: 14px 14px 0; background: #050506; }
 .mz-hero::before { content: ""; position: absolute; z-index: -1; top: -25%; right: -10%; width: 75%; height: 80%; pointer-events: none;
   background: radial-gradient(ellipse at top, rgba(255,255,255,.17), transparent 65%); filter: blur(30px); }
@@ -110,7 +107,6 @@ body { overflow-x: hidden; }
 .mz-h1 span { display: inline-block; padding-right: .06em; }
 .mz-lead { margin: 30px 0 0; max-width: 600px; font-weight: 300; font-size: clamp(17px, 2vw, 22px); line-height: 1.75; color: #a9a9b6; letter-spacing: -.2px; }
 .mz-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
-/* botões */
 .mz-btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; white-space: nowrap; flex-shrink: 0;
   font-weight: 500; font-size: 15px; letter-spacing: -.1px; padding: 14px 24px; border-radius: 999px; border: 1px solid transparent; cursor: pointer;
   transition: transform .2s var(--ease), box-shadow .25s, border-color .25s; }
@@ -133,7 +129,6 @@ body { overflow-x: hidden; }
 .mz-hero [data-in] { animation: mz-rise .9s var(--ease) both; animation-delay: var(--d, 0ms); }
 @keyframes mz-rise { from { opacity: 0; transform: translateY(26px); } }
 
-/* ---------- FAIXA INCLINADA ---------- */
 .mz-band-wrap { position: relative; z-index: 2; overflow: hidden; padding: clamp(46px, 7vw, 70px) 0; }
 .mz-band { background: var(--panel); border: 1px solid rgba(255,255,255,.12); box-shadow: 0 0 60px rgba(166,60,240,.28);
   transform: rotate(-1.6deg) scale(1.06); padding: 4px 0; overflow: hidden; }
@@ -145,7 +140,6 @@ body { overflow-x: hidden; }
 .mz-star { width: .55em; height: .55em; font-size: clamp(30px, 6vw, 64px); margin: 0 clamp(30px, 6vw, 70px); flex-shrink: 0; color: #ff4fa3; filter: drop-shadow(0 0 10px rgba(255,46,133,.7)); }
 @keyframes mz-slide { to { transform: translateX(-50%); } }
 
-/* ---------- SEÇÕES ---------- */
 .mz-main { background: radial-gradient(50% 30% at 100% 45%, rgba(166,60,240,.13), transparent 70%), radial-gradient(45% 25% at 0% 85%, rgba(255,46,133,.09), transparent 70%), var(--bg); }
 .mz-sec { padding: clamp(60px, 10vw, 130px) 0 clamp(40px, 7vw, 90px); }
 .mz-eyebrow { display: block; margin: 0 0 22px; font-family: var(--mono); font-weight: 500; font-size: 13px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
@@ -157,7 +151,6 @@ body { overflow-x: hidden; }
 .mz [data-reveal] { opacity: 0; transform: translateY(32px); transition: opacity .7s var(--ease), transform .7s var(--ease); transition-delay: var(--d, 0ms); }
 .mz [data-reveal].in { opacity: 1; transform: none; }
 
-/* ---------- PROJETOS ---------- */
 .mz-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: clamp(36px, 6vw, 70px); }
 .mz-card { padding: 18px 18px 14px; border-radius: 32px; border: 1px solid rgba(255,255,255,.1); color: #f3f3f5;
   background: radial-gradient(90% 70% at 100% 0%, rgba(var(--g),.22), transparent 65%), var(--panel); box-shadow: var(--rim); }
@@ -181,7 +174,7 @@ body { overflow-x: hidden; }
 .mz-thumb { position: absolute; top: 50%; width: 13px; height: 13px; margin: -6.5px 0 0 -6.5px; border-radius: 50%; background: #fff; box-shadow: 0 0 12px rgba(255,46,133,.7); transition: transform .2s; }
 .mz-bar:hover .mz-thumb { transform: scale(1.3); }
 .mz-card-t { margin: 0; padding: 20px 8px 6px; font-size: clamp(16px, 2.2vw, 22px); font-weight: 500; letter-spacing: -.02em; }
-/* ---------- SERVIÇOS ---------- */
+
 .mz-acc { display: grid; gap: 14px; margin-top: clamp(36px, 6vw, 70px); }
 .mz-acc-item { border: 1px solid rgba(255,255,255,.1); border-radius: 28px; background: var(--panel); box-shadow: var(--rim); overflow: hidden;
   transition: border-color .35s, box-shadow .35s, background .35s; }
@@ -201,7 +194,6 @@ body { overflow-x: hidden; }
 .mz-acc-b > div { overflow: hidden; }
 .mz-acc-b p { margin: 0; padding: 0 28px 28px clamp(74px, 7vw + 28px, 98px); max-width: 720px; font-size: 16px; line-height: 1.65; color: #a9a9b6; }
 
-/* ---------- CONTATO ---------- */
 .mz-contato { position: relative; isolation: isolate; overflow: hidden; text-align: center; margin: clamp(40px, 6vw, 80px) 14px 0;
   padding: clamp(80px, 13vw, 140px) 22px; border: 1px solid rgba(255,255,255,.1); border-radius: 36px; box-shadow: var(--rim);
   background: radial-gradient(60% 50% at 50% 0%, rgba(166,60,240,.45), transparent 70%), radial-gradient(50% 45% at 92% 100%, rgba(255,46,133,.35), transparent 70%), var(--panel); }
@@ -209,7 +201,7 @@ body { overflow-x: hidden; }
 .mz-contato .mz-sub { margin-top: 24px; font-weight: 300; font-size: clamp(17px, 2vw, 22px); }
 .mz-contato .mz-cta { justify-content: center; margin-top: 40px; }
 .mz-contato .mz-eyebrow::before { display: none; }
-/* ---------- RODAPÉ ---------- */
+
 .mz-foot { background: #050506; margin-top: clamp(50px, 8vw, 90px); border-top: 1px solid rgba(255,255,255,.1); padding: 36px 0 calc(36px + env(safe-area-inset-bottom,0px)); }
 .mz-foot-in { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
 .mz-brand { display: inline-flex; align-items: center; gap: 14px; }
@@ -219,7 +211,6 @@ body { overflow-x: hidden; }
 .mz-brand:hover span.t { color: #ff7ab8; }
 .mz-copy { font-size: 13px; color: var(--muted); }
 
-/* ---------- RESPONSIVO ---------- */
 @media (max-width: 640px) {
   .mz-cards { gap: 12px; }
   .mz-card { padding: 10px 10px 8px; border-radius: 22px; }
@@ -327,8 +318,7 @@ function Particulas({ densidade = 13000 }) {
       ps = Array.from({ length: Math.max(Math.round((w * h) / densidade), 18) }, nova);
       desenhar();
     };
-
-    medir();
+medir();
     const ro = "ResizeObserver" in window ? new ResizeObserver(medir) : null;
     if (ro) ro.observe(pai);
 
@@ -357,25 +347,38 @@ const Anel = () => (
 
 let videoAtivo = null;
 
-function VideoCard({ n, g }) {
+/* ============ VÍDEOS INDIVIDUAIS ============ */
+
+function VideoCard({ n, g, src }) {
   const vRef = useRef(null);
   const barRef = useRef(null);
   const arrasta = useRef(false);
   const [tocando, setTocando] = useState(false);
   const [p, setP] = useState(0);
+  const [erro, setErro] = useState("");
 
   const alternar = () => {
     const v = vRef.current;
     if (!v) return;
+
     if (v.paused) {
       if (videoAtivo && videoAtivo !== v) videoAtivo.pause();
       videoAtivo = v;
+
+      setErro("");
+
       const r = v.play();
-      if (r && r.catch) r.catch(() => {});
+      if (r && r.catch) {
+        r.catch((err) => {
+          console.error("Erro ao reproduzir:", src, err);
+          setErro("Não foi possível reproduzir este vídeo.");
+        });
+      }
     } else {
       v.pause();
     }
   };
+
   const buscar = (e) => {
     const v = vRef.current, b = barRef.current;
     if (!v || !b || !v.duration) return;
@@ -384,7 +387,6 @@ function VideoCard({ n, g }) {
     v.currentTime = k * v.duration;
     setP(k);
   };
-
   const teclado = (e) => {
     const v = vRef.current;
     if (!v || !v.duration) return;
@@ -392,24 +394,78 @@ function VideoCard({ n, g }) {
     if (e.key === "ArrowLeft") { e.preventDefault(); v.currentTime = Math.max(0, v.currentTime - 5); }
   };
 
-  return (
-    <article className={`mz-card${tocando ? " playing" : ""}`} data-reveal style={{ "--g": g, "--d": `${((n - 1) % 2) * 100}ms` }}>
+  
+        return (
+  <div
+    className="mz-reveal"
+    data-reveal
+    style={{ "--d": `${((n - 1) % 2) * 100}ms` }}
+  >
+    <article
+      className={`mz-card ${tocando ? "playing" : ""}`}
+      style={{ "--g": g }}
+    >
       <div className="mz-stage" onClick={alternar}>
         <video
           ref={vRef}
-          src={`video${n}.mp4`}
-          preload="metadata"
+          src={src}
+          type="video/mp4"
+          preload="auto"
           playsInline
+          controls={false}
+          muted={false}
           onPlay={() => setTocando(true)}
           onPause={() => setTocando(false)}
-          onEnded={() => { setTocando(false); setP(0); }}
-          onTimeUpdate={(e) => { const v = e.currentTarget; if (v.duration && !arrasta.current) setP(v.currentTime / v.duration); }}
+          onEnded={() => {
+            setTocando(false);
+            setP(0);
+          }}
+          onTimeUpdate={(e) => {
+            const v = e.currentTarget;
+            if (v.duration && !arrasta.current) {
+              setP(v.currentTime / v.duration);
+            }
+          }}
+          onError={(e) => {
+            console.error("Falha ao carregar vídeo:", src, e.currentTarget.error);
+            setErro("Erro ao carregar vídeo. Confira o arquivo.");
+          }}
+          onLoadedMetadata={() => setErro("")}
         />
-        <button className="mz-play" type="button" aria-label={`${tocando ? "Pausar" : "Reproduzir"} Projeto ${n}`}>
-          {tocando
-            ? <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z" /></svg>
-            : <svg className="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>}
+
+        <button
+          className="mz-play"
+          type="button"
+          aria-label={tocando ? "Pausar" : "Reproduzir"}
+        >
+          {tocando ? (
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 5h4v14H6zM14 5h4v14h-4z" />
+            </svg>
+          ) : (
+            <svg className="i-play" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          )}
         </button>
+  {erro && (
+          <div
+            style={{
+              position: "absolute",
+              zIndex: 4,
+              inset: "auto 8px 35px",
+              padding: "6px",
+              textAlign: "center",
+              fontSize: "12px",
+              color: "#fff",
+              background: "rgba(150,0,0,.85)",
+              borderRadius: "8px",
+            }}
+          >
+            {erro}
+          </div>
+        )}
+
         <div
           className="mz-bar"
           ref={barRef}
@@ -421,19 +477,33 @@ function VideoCard({ n, g }) {
           aria-valuenow={Math.round(p * 100)}
           onClick={(e) => e.stopPropagation()}
           onKeyDown={teclado}
-          onPointerDown={(e) => { e.stopPropagation(); e.currentTarget.setPointerCapture(e.pointerId); arrasta.current = true; buscar(e); }}
-          onPointerMove={(e) => { if (arrasta.current) buscar(e); }}
-          onPointerUp={() => { arrasta.current = false; }}
-          onPointerCancel={() => { arrasta.current = false; }}
+          onPointerDown={(e) => {
+            e.stopPropagation();
+            e.currentTarget.setPointerCapture(e.pointerId);
+            arrasta.current = true;
+            buscar(e);
+          }}
+          onPointerMove={(e) => {
+            if (arrasta.current) buscar(e);
+          }}
+          onPointerUp={() => {
+            arrasta.current = false;
+          }}
+          onPointerCancel={() => {
+            arrasta.current = false;
+          }}
         >
           <span className="mz-fill" style={{ width: `${p * 100}%` }} />
           <span className="mz-thumb" style={{ left: `${p * 100}%` }} />
         </div>
       </div>
+
       <h3 className="mz-card-t">Projeto {n}</h3>
     </article>
-  );
-      }
+  </div>
+);
+}
+
 function Servicos() {
   const [aberto, setAberto] = useState(0);
   return (
@@ -468,7 +538,6 @@ function Menezes() {
   const barRef = useRef(null);
   const [scrolled, setScrolled] = useState(false);
 
-  // progresso de rolagem, barra flutuante e rolagem suave
   useEffect(() => {
     const html = document.documentElement;
     const prev = html.style.scrollBehavior;
@@ -483,24 +552,23 @@ function Menezes() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => { window.removeEventListener("scroll", onScroll); html.style.scrollBehavior = prev; };
   }, []);
+useEffect(() => {
+  const els = rootRef.current.querySelectorAll("[data-reveal]");
+  if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    els.forEach((e) => e.classList.add("in"));
+    return;
+  }
+  const io = new IntersectionObserver((es) => es.forEach((e) => {
+    if (e.isIntersecting) { e.target.classList.add("in");
+      io.unobserve(e.target); }
+  }), { threshold: 0.12 });
+  els.forEach((e) => io.observe(e));
+  return () => io.disconnect();
+}, []);
 
-  // elementos que aparecem ao rolar
-  useEffect(() => {
-    const els = rootRef.current.querySelectorAll("[data-reveal]");
-    if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      els.forEach((e) => e.classList.add("in"));
-      return;
-    }
-    const io = new IntersectionObserver((es) => es.forEach((e) => {
-      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
-    }), { threshold: 0.12 });
-    els.forEach((e) => io.observe(e));
-    return () => io.disconnect();
-  }, []);
+const tab = scrolled ? 0 : -1;
 
-  const tab = scrolled ? 0 : -1;
-
-  return (
+return (
     <div className="mz" id="top" ref={rootRef}>
       <style>{css}</style>
       <div className="mz-progress" ref={barRef} aria-hidden="true" />
@@ -515,7 +583,7 @@ function Menezes() {
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14c-.2.6-1.3 1.2-1.8 1.2-.5.1-1.1.1-3.6-.9-3-1.3-4.9-4.4-5.1-4.6-.1-.2-1.2-1.6-1.2-3s.8-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.2c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.6-.1l2 1c.3.1.5.2.5.3.1.2.1.8-.1 1.4z" /></svg>
         WhatsApp
       </a>
-{/* 1. HERO */}
+  {/* HERO */}
       <header className="mz-hero">
         <span className="mz-blob a" /><span className="mz-blob b" /><span className="mz-blob c" />
         <div className="mz-hero-inner">
@@ -541,11 +609,9 @@ function Menezes() {
         </div>
       </header>
 
-      {/* 1.5 FAIXA */}
       <Faixa />
 
       <main className="mz-main">
-        {/* 2. PROJETOS */}
         <section className="mz-sec" id="projetos">
           <div className="mz-wrap">
             <span className="mz-eyebrow" data-reveal>(01) Projetos selecionados</span>
@@ -553,11 +619,18 @@ function Menezes() {
             <p className="mz-sub" data-reveal style={{ "--d": "140ms" }}>Uma seleção dos meus trabalhos.</p>
 
             <div className="mz-cards">
-              {VIDEOS.map((v) => <VideoCard key={v.n} n={v.n} g={v.g} />)}
+              {VIDEOS.map((v) => (
+                <VideoCard
+                  key={v.n}
+                  n={v.n}
+                  g={v.g}
+                  src={v.src}
+                />
+              ))}
             </div>
           </div>
         </section>
-                                  {/* 3. SERVIÇOS */}
+
         <section className="mz-sec" id="servicos">
           <div className="mz-wrap">
             <span className="mz-eyebrow" data-reveal>(02) O que eu faço</span>
@@ -568,7 +641,6 @@ function Menezes() {
         </section>
       </main>
 
-      {/* 4. CONTATO */}
       <section className="mz-contato" id="contato">
         <Particulas densidade={10000} />
         <span className="mz-eyebrow" data-reveal>(03) Vamos conversar?</span>
@@ -580,7 +652,6 @@ function Menezes() {
         </div>
       </section>
 
-      {/* 5. RODAPÉ */}
       <footer className="mz-foot">
         <div className="mz-wrap mz-foot-in">
           <a href="#top" className="mz-brand" aria-label="Voltar ao topo"><b className="grad-short">M</b><span className="t">Menezes</span></a>
