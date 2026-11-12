@@ -634,8 +634,9 @@ return (
         <section className="mz-sec" id="projetos">
           <div className="mz-wrap">
             <span className="mz-eyebrow" data-reveal>(01) Projetos selecionados</span>
-            <h2 className="mz-h2" data-reveal style={{ "--d": "80ms" }}>Edições que prendem <span className="grad-short">a atenção.</span></h2>
-            <p className="mz-sub" data-reveal style={{ "--d": "140ms" }}>Uma seleção dos meus trabalhos.</p>
+            <h2 className="mz-h2" data-reveal style={{ "--d": "80ms" }}>Edições que prendem a <span className="grad-short">atenção.</span></h2>
+            <p className="mz-sub" data-reveal style={{ "--d": "140ms" }}>
+        não trabalhei para nenhum dos canais abaixo, os videos são somente projetos de edição meus.</p>
 
             <div className="mz-cards">
               {VIDEOS.map((v) => (
