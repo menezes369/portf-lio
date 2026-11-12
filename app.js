@@ -149,12 +149,31 @@ body { overflow-x: hidden; }
 .mz-sub { margin: 22px 0 0; font-size: 16px; color: var(--muted); line-height: 1.6; }
 
 .mz [data-reveal].in { opacity: 1; transform: none; }
+.mz-reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity .7s var(--ease),
+    transform .7s var(--ease);
+  transition-delay: var(--d, 0ms);
+}
+
+.mz-reveal.in {
+  opacity: 1;
+  transform: none;
+}
 
 .mz-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: clamp(36px, 6vw, 70px); }
 .mz-card { padding: 18px 18px 14px; border-radius: 32px; border: 1px solid rgba(255,255,255,.1); color: #f3f3f5;
   background: radial-gradient(90% 70% at 100% 0%, rgba(var(--g),.22), transparent 65%), var(--panel); box-shadow: var(--rim); }
 .mz .mz-card[data-reveal].in { transition: transform .35s var(--ease), border-color .35s, box-shadow .35s, opacity .7s; transition-delay: 0ms; }
-.mz .mz-card[data-reveal].in:hover { transform: translateY(-6px); border-color: rgba(var(--g),.6); box-shadow: 0 0 44px rgba(var(--g),.28), inset 0 1px 0 rgba(255,255,255,.1); }
+.mz .mz-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(var(--g), .6);
+  box-shadow:
+    0 0 44px rgba(var(--g), .28),
+    inset 0 1px 0 rgba(255,255,255,.1);
+}
 .mz-stage { position: relative; aspect-ratio: 16 / 9; border-radius: 22px; overflow: hidden; cursor: pointer; background: linear-gradient(180deg,#121218 0%,#000 100%); }
 .mz-stage video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: transparent; }
 
