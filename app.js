@@ -2,7 +2,7 @@ const { useState, useEffect, useRef } = React;
 
 /* ============ CONFIGURAÇÃO ============ */
 const WHATSAPP_URL = "https://wa.me/5518996241216";
-const INSTAGRAM_URL = "https://www.instagram.com/";
+const INSTAGRAM_URL = "https://www.instagram.com/odante.edit/";
 
 const VIDEOS = [
   { n: 1, g: "166,60,240", src: "./video1.mp4" },
